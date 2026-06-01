@@ -6,7 +6,7 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   root: path.resolve(__dirname, "./client"), // Set Vite root to the client directory where index.html lives
-  base: "/saferkidsimulator/", // Required for GitHub Pages subfolder deployment
+  base: "./", // Use relative paths so that assets are resolved correctly in GitHub Pages subfolders
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./client/src"),

@@ -135,7 +135,7 @@ export default function Home() {
                 <div className="flex justify-center">
                   <div className="relative w-full max-w-[500px] aspect-[5/3] overflow-hidden rounded-[1.5rem] shadow-inner border border-border/30 bg-muted/20">
                     <img 
-                      src="/manus-storage/StartScreen2_7c018e58.jpg" 
+                      src="./StartScreen2.jpg" 
                       alt="SaferKid Tool - Simulator Intro Graphic" 
                       className="w-full h-full object-cover"
                     />
