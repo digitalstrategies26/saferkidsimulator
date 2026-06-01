@@ -5,8 +5,8 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  root: path.resolve(__dirname, "./client"), // Set Vite root to the client directory where index.html lives
-  base: "./", // Use relative paths so that assets are resolved correctly in GitHub Pages subfolders
+  root: path.resolve(__dirname, "./client"), // Set Vite root to the client directory
+  base: "./", // FORCE relative paths (e.g. assets/index.css) instead of absolute paths
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./client/src"),
@@ -16,5 +16,6 @@ export default defineConfig({
   build: {
     outDir: path.resolve(__dirname, "./dist/public"),
     emptyOutDir: true,
+    assetsDir: "assets",
   },
 });
