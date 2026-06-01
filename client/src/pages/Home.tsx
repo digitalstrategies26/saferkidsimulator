@@ -138,11 +138,7 @@ export default function Home() {
                   <div>
                     <h2 className="text-xl font-bold mb-1">How does the simulator work?</h2>
                     <p className="text-muted-foreground text-sm leading-relaxed">
-                      Navigate through <strong>6 realistic scenarios of common digital risks</strong> in childhood. 
-                      For each scenario, you will watch an introductory video and choose between two parental mediation strategies: 
-                      <span className="text-destructive font-semibold"> Choice A (Restrictive Approach)</span> or 
-                      <span className="text-primary font-semibold"> Choice B (Active Parental Mediation)</span>. 
-                      Analyze the outcomes of your decisions through the lens of developmental psychology and digital media experts.
+                      Browse through 6 realistic scenarios of common "digital risks" in childhood. For each scenario, you will watch an introductory video and choose between two parental mediation strategies. After each choice, analyze the outcomes of your decisions through the lens of developmental psychology and digital media experts.
                     </p>
                   </div>
                 </div>
@@ -192,18 +188,9 @@ export default function Home() {
 
               {/* Academic Footer */}
               <div className="text-center text-xs text-muted-foreground pt-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6">
-                <span><strong>Wagner</strong> • Master of Arts Candidate (UNF)</span>
+                <span><strong>Wagner Santos</strong> • University of Niagara Falls Canada</span>
                 <span className="hidden sm:inline">•</span>
-                <span>Assignment 2.5: Parental Simulator</span>
-                <span className="hidden sm:inline">•</span>
-                <a 
-                  href="https://sites.google.com/view/saferkidtool" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline inline-flex items-center gap-1"
-                >
-                  Website Hub (Assignment 2.6) <ExternalLink className="w-3 h-3" />
-                </a>
+                <span>Assignment 2.5 (Parental Simulator)</span>
               </div>
             </motion.div>
           )}
@@ -525,10 +512,7 @@ export default function Home() {
           <strong>SaferKid Parental Mediation Simulator</strong> © 2026. All rights reserved.
         </p>
         <p>
-          Developed as the academic deliverable <strong>Assignment 2.5</strong> for the Master of Arts Program at the 
-          <a href="https://unf.ca" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline ml-1">
-            University of Niagara Falls (UNF)
-          </a>.
+          No commercial use intended.
         </p>
       </footer>
     </div>
