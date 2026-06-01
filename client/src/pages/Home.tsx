@@ -129,10 +129,21 @@ export default function Home() {
               exit="exit"
               className="space-y-6"
             >
-              {/* Welcome Card */}
-              <div className="neo-flat p-6 rounded-[2rem] space-y-4">
+              {/* Welcome Card with Image */}
+              <div className="neo-flat p-6 rounded-[2rem] space-y-6">
+                {/* Intro Graphic Image (approx 500x300 px responsively) */}
+                <div className="flex justify-center">
+                  <div className="relative w-full max-w-[500px] aspect-[5/3] overflow-hidden rounded-[1.5rem] shadow-inner border border-border/30 bg-muted/20">
+                    <img 
+                      src="/manus-storage/StartScreen2_7c018e58.jpg" 
+                      alt="SaferKid Tool - Simulator Intro Graphic" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+
                 <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-2xl bg-primary/10 text-primary shrink-0">
+                  <div className="p-3 rounded-2xl bg-primary/10 text-primary shrink-0 hidden sm:block">
                     <GraduationCap className="w-8 h-8" />
                   </div>
                   <div>
