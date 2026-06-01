@@ -105,7 +105,7 @@ export default function Home() {
       <header className="max-w-4xl mx-auto w-full mb-8 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-3 border border-primary/20">
           <Shield className="w-4 h-4" />
-          <span>Assignment 2.5 • Academic Deliverable</span>
+          <span>Deliverable 2.5 • Simulator</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-2">
           SaferKid Parental Mediation Simulator
