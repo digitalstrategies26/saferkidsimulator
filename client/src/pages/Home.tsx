@@ -180,6 +180,39 @@ export default function Home() {
                 <span className="hidden sm:inline">•</span>
                 <span>Assignment 2.5 (Parental Simulator)</span>
               </div>
+
+              {/* User Perception Survey Neomorphic Card */}
+              <div className="neo-flat p-6 sm:p-8 rounded-[2rem] space-y-6 border border-primary/10 bg-primary/5">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="space-y-3 text-center md:text-left flex-1">
+                    <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-primary/10 text-primary">
+                      Feedback & Evaluation
+                    </span>
+                    <h3 className="text-xl font-bold text-foreground">User Perception Survey</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed max-w-xl">
+                      Your feedback is highly valuable for this academic research. Please take a moment to evaluate the simulator. You can click on the link below or capture the QR Code with your mobile device to access the survey.
+                    </p>
+                    <div className="pt-2">
+                      <a 
+                        href="https://forms.cloud.microsoft/pages/responsepage.aspx?id=Qyxi9WSOY0iu1AzEkI08iJqvKOdMgmBFl64DO74jcDNUNTZEVjVQMDUxMDlZTDRFV0JLOUdHUkUwUi4u&route=shorturl" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-bold hover:bg-primary/90 transition-colors shadow-md"
+                      >
+                        Take User Perception Survey <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                  <div className="shrink-0 p-3 bg-white rounded-2xl border border-border/50 shadow-inner flex flex-col items-center gap-2">
+                    <img 
+                      src="./qr-code.svg" 
+                      alt="User Perception Survey QR Code" 
+                      className="w-32 h-32 md:w-36 md:h-32 object-contain"
+                    />
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Scan QR Code</span>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           )}
 
