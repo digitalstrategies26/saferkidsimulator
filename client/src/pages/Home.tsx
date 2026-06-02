@@ -1,38 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
-import { SCENES, Scene, Choice } from "@/const";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { 
-  Play, 
+  Shield, 
+  ChevronRight, 
   ArrowLeft, 
+  BookOpen, 
   CheckCircle2, 
   AlertCircle, 
-  BookOpen, 
-  RotateCcw, 
-  Home as HomeIcon, 
-  ChevronRight, 
-  Shield, 
-  Info,
-  ExternalLink,
-  GraduationCap
+  Info, 
+  GraduationCap, 
+  Play, 
+  Home as HomeIcon,
+  ExternalLink
 } from "lucide-react";
-
-// Helper to convert short YouTube URLs (youtu.be/ID) to embed format (youtube.com/embed/ID)
-const getEmbedUrl = (url: string): string => {
-  if (!url) return "";
-  let id = "";
-  if (url.includes("youtu.be/")) {
-    id = url.split("youtu.be/")[1].split("?")[0];
-  } else if (url.includes("youtube.com/watch?v=")) {
-    id = url.split("watch?v=")[1].split("&")[0];
-  } else if (url.includes("youtube.com/embed/")) {
-    id = url.split("embed/")[1].split("?")[0];
-  } else {
-    id = url; // assume it's already the ID
-  }
-  return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
-};
+import { Button } from "@/components/ui/button";
+import { SCENES, Scene, Choice } from "../const";
+import { motion, AnimatePresence } from "framer-motion";
 
 type AppState = "MENU" | "INTRO_VIDEO" | "QUESTION" | "OUTCOME_VIDEO" | "OUTCOME_TEXT" | "EXPERT_OPINION";
 
@@ -40,7 +22,6 @@ export default function Home() {
   const [state, setState] = useState<AppState>("MENU");
   const [selectedScene, setSelectedScene] = useState<Scene | null>(null);
   const [selectedChoice, setSelectedChoice] = useState<"A" | "B" | null>(null);
-  const [showExpertInOutcome, setShowExpertInOutcome] = useState<boolean>(false);
   const [completedScenes, setCompletedScenes] = useState<Record<number, "A" | "B">>(() => {
     const saved = localStorage.getItem("saferkid_completed_scenes");
     return saved ? JSON.parse(saved) : {};
@@ -50,15 +31,14 @@ export default function Home() {
     localStorage.setItem("saferkid_completed_scenes", JSON.stringify(completedScenes));
   }, [completedScenes]);
 
-  const selectScene = (scene: Scene) => {
+  const startScene = (scene: Scene) => {
     setSelectedScene(scene);
     setSelectedChoice(null);
-    setShowExpertInOutcome(false);
     setState("INTRO_VIDEO");
   };
 
-  const handleChoice = (choiceType: "A" | "B") => {
-    setSelectedChoice(choiceType);
+  const handleChoice = (choice: "A" | "B") => {
+    setSelectedChoice(choice);
     setState("OUTCOME_VIDEO");
   };
 
@@ -70,8 +50,8 @@ export default function Home() {
     setState("EXPERT_OPINION");
   };
 
-  const markSceneComplete = (choice: "A" | "B") => {
-    if (selectedScene) {
+  const markSceneComplete = (choice: "A" | "B" | null) => {
+    if (selectedScene && choice) {
       setCompletedScenes(prev => ({
         ...prev,
         [selectedScene.id]: choice
@@ -81,10 +61,9 @@ export default function Home() {
   };
 
   const resetToMenu = () => {
-    setState("MENU");
     setSelectedScene(null);
     setSelectedChoice(null);
-    setShowExpertInOutcome(false);
+    setState("MENU");
   };
 
   const getChoiceData = (): Choice | null => {
@@ -92,16 +71,22 @@ export default function Home() {
     return selectedChoice === "A" ? selectedScene.choiceA : selectedScene.choiceB;
   };
 
-  // Animations
+  const getEmbedUrl = (url: string) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    const videoId = (match && match[2].length === 11) ? match[2] : null;
+    return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0` : url;
+  };
+
   const pageVariants = {
     initial: { opacity: 0, y: 15 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -15 }
+    animate: { opacity: 1, y: 0, transition: { duration: 0.25, ease: "easeOut" } as any },
+    exit: { opacity: 0, y: -15, transition: { duration: 0.15, ease: "easeIn" } as any }
   };
 
   return (
-    <div className="min-h-screen flex flex-col py-8 px-4 sm:px-6 lg:px-8">
-      {/* Simulator Header */}
+    <div className="min-h-screen bg-background text-foreground flex flex-col px-4 py-8 sm:px-6 lg:px-8">
+      {/* Header */}
       <header className="max-w-4xl mx-auto w-full mb-8 text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-3 border border-primary/20">
           <Shield className="w-4 h-4" />
@@ -111,14 +96,13 @@ export default function Home() {
           SaferKid Parental Mediation Simulator
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
-          An interactive tool for parents to practice digital mediation strategies. Experience branching scenarios, compare Restrictive vs. Active mediation, and read expert pedagogical opinions.
+          Practice and understand different digital mediation strategies to protect and empower children in the modern media landscape.
         </p>
       </header>
 
-      {/* Main Content Area */}
-      <main className="max-w-4xl mx-auto w-full flex-grow flex flex-col justify-center">
+      {/* Main Container */}
+      <main className="flex-1 max-w-4xl mx-auto w-full">
         <AnimatePresence mode="wait">
-          
           {/* 1. MAIN MENU */}
           {state === "MENU" && (
             <motion.div 
@@ -127,27 +111,21 @@ export default function Home() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="space-y-6"
+              className="space-y-8"
             >
-              {/* Welcome Card with Image */}
-              <div className="neo-flat p-6 rounded-[2rem] space-y-6">
-                {/* Intro Graphic Image (approx 500x300 px responsively) */}
-                <div className="flex justify-center">
-                  <div className="relative w-full max-w-[500px] aspect-[5/3] overflow-hidden rounded-[1.5rem] shadow-inner border border-border/30 bg-muted/20">
-                    <img 
-                      src="./StartScreen2.jpg" 
-                      alt="SaferKid Tool - Simulator Intro Graphic" 
-                      className="w-full h-full object-cover"
-                    />
+              {/* Welcome Card with Intro Graphic */}
+              <div className="neo-flat p-6 sm:p-8 rounded-[2rem] space-y-6 text-center sm:text-left flex flex-col items-center">
+                <img 
+                  src="./StartScreen2.jpg" 
+                  alt="SaferKid Tool - Simulator Intro Graphic" 
+                  className="w-full max-w-[500px] aspect-[5/3] object-cover rounded-2xl shadow-md border border-border/50"
+                />
+                <div className="flex flex-col sm:flex-row items-center gap-5 pt-4">
+                  <div className="p-4 rounded-2xl bg-primary/10 text-primary shrink-0">
+                    <Shield className="w-8 h-8" />
                   </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-2xl bg-primary/10 text-primary shrink-0 hidden sm:block">
-                    <GraduationCap className="w-8 h-8" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold mb-1">How does the simulator work?</h2>
+                  <div className="space-y-2">
+                    <h2 className="text-xl font-bold">How does the simulator work?</h2>
                     <p className="text-muted-foreground text-sm leading-relaxed">
                       Browse through 6 realistic scenarios of common "digital risks" in childhood. For each scenario, you will watch an introductory video and choose between two parental mediation strategies. After each choice, analyze the outcomes of your decisions through the lens of developmental psychology and digital media experts.
                     </p>
@@ -158,26 +136,25 @@ export default function Home() {
               {/* Scenarios Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {SCENES.map((scene) => {
-                  const completedChoice = completedScenes[scene.id];
+                  const completion = completedScenes[scene.id];
                   return (
                     <div 
                       key={scene.id}
-                      onClick={() => selectScene(scene)}
-                      className="neo-button p-5 rounded-[1.8rem] cursor-pointer flex flex-col justify-between h-full group"
+                      onClick={() => startScene(scene)}
+                      className={`neo-button p-6 rounded-[2rem] text-left cursor-pointer transition-all duration-300 border border-transparent hover:border-primary/20 flex flex-col justify-between group h-full relative ${
+                        completion ? "bg-emerald-50/50 dark:bg-emerald-950/10" : ""
+                      }`}
                     >
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-start">
+                      {completion && (
+                        <div className="absolute top-4 right-4 flex items-center gap-1 text-xs font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 px-2.5 py-1 rounded-full">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> Completed (Approach {completion})
+                        </div>
+                      )}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3">
                           <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground">
                             {scene.category}
                           </span>
-                          {completedChoice && (
-                            <span className={`text-xs font-bold flex items-center gap-1 px-2.5 py-1 rounded-full ${
-                              completedChoice === "B" ? "bg-emerald-100 text-emerald-700" : "bg-orange-100 text-orange-700"
-                            }`}>
-                              <CheckCircle2 className="w-3.5 h-3.5" />
-                              {completedChoice === "B" ? "Active" : "Restrictive"}
-                            </span>
-                          )}
                         </div>
                         <div>
                           <h3 className="text-lg font-bold group-hover:text-primary transition-colors">
@@ -239,7 +216,7 @@ export default function Home() {
                   </span>
                   <h2 className="text-xl font-bold">{selectedScene.title}</h2>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    Watch the situation above. When the video ends (or at any time), click the button below to make your parental mediation decision.
+                    Watch the situation above. When you want, click the button below to see an explanation of the scene and make your parental mediation decision.
                   </p>
                 </div>
               </div>
@@ -249,7 +226,7 @@ export default function Home() {
                   onClick={() => setState("QUESTION")} 
                   className="neo-button rounded-full px-8 py-6 text-base font-bold bg-primary text-primary-foreground hover:bg-primary/90"
                 >
-                  Make Your Choice <ChevronRight className="ml-2 w-5 h-5" />
+                  Understand this scene <ChevronRight className="ml-2 w-5 h-5" />
                 </Button>
               </div>
             </motion.div>
@@ -295,7 +272,7 @@ export default function Home() {
                       <span className="text-xs font-bold uppercase tracking-wider text-destructive px-2 py-0.5 rounded-md bg-destructive/10">
                         Approach A
                       </span>
-                      <h3 className="text-base font-bold group-hover:text-destructive transition-colors">
+                      <h3 className="text-base group-hover:text-destructive transition-colors">
                         Restrictive Action
                       </h3>
                       <p className="text-muted-foreground text-sm leading-relaxed">
@@ -317,7 +294,7 @@ export default function Home() {
                       <span className="text-xs font-bold uppercase tracking-wider text-primary px-2 py-0.5 rounded-md bg-primary/10">
                         Approach B
                       </span>
-                      <h3 className="text-base font-bold group-hover:text-primary transition-colors">
+                      <h3 className="text-base group-hover:text-primary transition-colors">
                         Active Mediation
                       </h3>
                       <p className="text-muted-foreground text-sm leading-relaxed">
@@ -479,7 +456,6 @@ export default function Home() {
                     <GraduationCap className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-primary">Academic Analysis</span>
                     <h2 className="text-lg sm:text-xl font-bold">What does Science and Literature say?</h2>
                   </div>
                 </div>
@@ -489,9 +465,7 @@ export default function Home() {
                     {getChoiceData()?.expertOpinion}
                   </p>
                   <div className="p-3.5 rounded-xl bg-primary/5 text-primary text-xs leading-relaxed border border-primary/10">
-                    <strong>Theoretical Foundation:</strong> This scenario was modeled based on guidelines from the 
-                    <em> American Academy of Pediatrics (AAP)</em> and consolidated parental mediation studies 
-                    (such as Livingstone & Helsper, 2008; Radesky et al., 2016).
+                    <strong>Theoretical Foundation:</strong> Each scenario was modeled on the Canadian Paediatric Society's (2019) guidelines and empirical research on active versus restrictive parental mediation (Helsper et al., 2024).
                   </div>
                 </div>
 
@@ -521,6 +495,16 @@ export default function Home() {
       <footer className="max-w-4xl mx-auto w-full mt-8 pt-6 border-t border-border/30 text-center space-y-2 text-xs text-muted-foreground">
         <p>
           <strong>SaferKid Parental Mediation Simulator</strong> © 2026. All rights reserved.
+        </p>
+        <p className="flex items-center justify-center gap-2">
+          <a 
+            href="https://sites.google.com/view/saferkidtool" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-primary hover:underline font-semibold inline-flex items-center gap-1"
+          >
+            Back to SaferKid Tool website <ExternalLink className="w-3.5 h-3.5" />
+          </a>
         </p>
         <p>
           No commercial use intended.
