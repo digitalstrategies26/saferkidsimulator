@@ -249,7 +249,7 @@ export default function Home() {
                   </span>
                   <h2 className="text-xl font-bold">{selectedScene.title}</h2>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    Watch the situation above. When you want, click the button below to see an explanation of the scene and make your parental mediation decision.
+                    Watch the situation above. At any moment, you can click the button below to see an explanation of the scene and make your parental mediation decision.
                   </p>
                 </div>
               </div>
@@ -379,7 +379,7 @@ export default function Home() {
                   }`}>
                     Consequence Video
                   </span>
-                  <h2 className="text-xl font-bold">See your child's reaction</h2>
+                  <h2 className="text-xl font-bold">See the child's reaction</h2>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     Observe the child's behavior and emotions following your decision. Then, proceed to read the detailed pedagogical analysis.
                   </p>
@@ -525,7 +525,39 @@ export default function Home() {
       </main>
 
       {/* General App Footer */}
-      <footer className="max-w-4xl mx-auto w-full mt-8 pt-6 border-t border-border/30 text-center space-y-2 text-xs text-muted-foreground">
+      <footer className="max-w-4xl mx-auto w-full mt-8 pt-6 border-t border-border/30 text-center space-y-3 text-xs text-muted-foreground">
+        <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-sm font-medium">
+          <span>📢 Follow us on social media:</span>
+          <a 
+            href="https://www.facebook.com/share/p/1HF67ztftC/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-primary hover:underline font-semibold"
+          >
+            Facebook
+          </a>
+          <span>•</span>
+          <a 
+            href="https://www.instagram.com/p/DYwI0hyFgSw/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-primary hover:underline font-semibold"
+          >
+            Instagram
+          </a>
+          <span>•</span>
+          <span className="inline-flex items-center gap-1">
+            📝 
+            <a 
+              href="https://forms.cloud.microsoft/r/wv1ZfSetxK" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:underline font-semibold"
+            >
+              Share your feedback
+            </a>
+          </span>
+        </p>
         <p>
           <strong>SaferKid Parental Mediation Simulator</strong> © 2026. All rights reserved.
         </p>
