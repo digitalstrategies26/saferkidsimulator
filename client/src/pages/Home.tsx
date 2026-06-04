@@ -529,7 +529,7 @@ export default function Home() {
         <p className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-sm font-medium">
           <span>📢 Follow us on social media:</span>
           <a 
-            href="https://www.facebook.com/share/p/1HF67ztftC/" 
+            href="https://www.facebook.com/share/18WtpyQtXo/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-primary hover:underline font-semibold"
@@ -538,7 +538,7 @@ export default function Home() {
           </a>
           <span>•</span>
           <a 
-            href="https://www.instagram.com/p/DYwI0hyFgSw/" 
+            href="https://www.instagram.com/saferkidtool/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-primary hover:underline font-semibold"
